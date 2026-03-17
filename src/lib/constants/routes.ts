@@ -1,0 +1,23 @@
+export const ROUTES = {
+	home: '/',
+	login: '/login',
+	register: '/register',
+	forgotPassword: '/forgot-password',
+	resetPassword: '/reset-password',
+	dashboard: '/dashboard',
+	cases: '/cases',
+	newCase: '/cases/new',
+	case: (id: string) => `/cases/${id}`,
+	caseRoadmap: (id: string) => `/cases/${id}/roadmap`,
+	caseDocuments: (id: string) => `/cases/${id}/documents`,
+	caseNewDocument: (id: string) => `/cases/${id}/documents/new`,
+	caseDocument: (caseId: string, docId: string) => `/cases/${caseId}/documents/${docId}`,
+	caseEvidence: (id: string) => `/cases/${id}/evidence`,
+	caseJournal: (id: string) => `/cases/${id}/journal`,
+	caseStatutes: (id: string) => `/cases/${id}/statutes`,
+	statutes: '/statutes',
+	settings: '/settings',
+	settingsNotifications: '/settings/notifications',
+	settingsAccount: '/settings/account',
+	help: '/help'
+} as const;

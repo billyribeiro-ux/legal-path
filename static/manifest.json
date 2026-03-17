@@ -1,0 +1,22 @@
+{
+	"name": "LegalPath",
+	"short_name": "LegalPath",
+	"description": "AI-powered legal self-help navigator",
+	"start_url": "/dashboard",
+	"display": "standalone",
+	"background_color": "#f8f9fb",
+	"theme_color": "#243e83",
+	"orientation": "portrait",
+	"icons": [
+		{
+			"src": "/icons/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/icons/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	]
+}
