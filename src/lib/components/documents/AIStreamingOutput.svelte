@@ -1,86 +1,52 @@
 <script lang="ts">
-	import Spinner from '$components/ui/Spinner.svelte';
-	import FeatureDisclaimer from '$components/disclaimer/FeatureDisclaimer.svelte';
-	import { DISCLAIMERS } from '$lib/constants/disclaimers';
-
 	interface Props {
-		content?: string;
-		isStreaming?: boolean;
-		label?: string;
+		text: string;
+		loading?: boolean;
 	}
 
-	let { content = '', isStreaming = false, label = 'AI is generating...' }: Props = $props();
+	let { text, loading = false }: Props = $props();
 </script>
 
-<div class="ai-output">
-	{#if isStreaming}
-		<div class="ai-output__status">
-			<Spinner size="sm" />
-			<span class="ai-output__label">{label}</span>
-		</div>
-	{/if}
-
-	<div class="ai-output__content" class:ai-output__content--streaming={isStreaming}>
-		{#if content}
-			<div class="ai-output__text">{content}</div>
-		{:else if !isStreaming}
-			<p class="ai-output__empty">No content generated yet.</p>
-		{/if}
-		{#if isStreaming}
-			<span class="ai-output__cursor"></span>
-		{/if}
-	</div>
-
-	{#if content && !isStreaming}
-		<FeatureDisclaimer message={DISCLAIMERS.aiResponse.content} />
+<div class="ai-output" role="log" aria-live="polite" aria-label="AI generated content">
+	<pre class="ai-output__text">{text}{#if loading}<span class="ai-output__cursor" aria-hidden="true">|</span>{/if}</pre>
+	{#if loading}
+		<p class="ai-output__status" aria-live="assertive">Generating content...</p>
 	{/if}
 </div>
 
 <style>
 	.ai-output {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-3);
-	}
-	.ai-output__status {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-	}
-	.ai-output__label {
-		font-size: var(--text-sm);
-		color: var(--color-text-secondary);
-		font-style: italic;
-	}
-	.ai-output__content {
-		background-color: var(--color-bg-sunken);
-		border-radius: var(--radius-md);
+		position: relative;
 		padding: var(--space-4);
-		font-size: var(--text-sm);
-		line-height: var(--leading-relaxed);
-		min-height: 100px;
-	}
-	.ai-output__content--streaming {
-		border: 1px solid var(--color-primary-200);
+		background-color: var(--color-bg-sunken);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		min-height: 200px;
 	}
 	.ai-output__text {
-		white-space: pre-wrap;
+		font-family: var(--font-mono, 'Courier New', monospace);
+		font-size: var(--text-sm);
+		line-height: 1.7;
 		color: var(--color-text-primary);
-	}
-	.ai-output__empty {
-		color: var(--color-text-tertiary);
-		text-align: center;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		margin: 0;
 	}
 	.ai-output__cursor {
-		display: inline-block;
-		width: 2px;
-		height: 1em;
-		background-color: var(--color-primary-600);
-		margin-left: 2px;
-		animation: blink 1s step-end infinite;
-		vertical-align: text-bottom;
+		display: inline;
+		animation: blink 0.8s step-end infinite;
+		color: var(--color-primary-600);
+		font-weight: var(--weight-bold);
 	}
 	@keyframes blink {
+		0%, 100% { opacity: 1; }
 		50% { opacity: 0; }
+	}
+	.ai-output__status {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
 	}
 </style>

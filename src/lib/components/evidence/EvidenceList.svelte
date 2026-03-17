@@ -1,50 +1,46 @@
 <script lang="ts">
-	import type { Evidence, EvidenceCategory } from '$lib/types/evidence';
+	import type { Evidence } from '$lib/types/evidence';
 	import EvidenceCard from './EvidenceCard.svelte';
-	import CategoryFilter from './CategoryFilter.svelte';
 
 	interface Props {
-		evidence: Evidence[];
-		onselect?: (item: Evidence) => void;
-		ondelete?: (id: string) => void;
+		items: Evidence[];
+		onselect: (item: Evidence) => void;
 	}
 
-	let { evidence, onselect, ondelete }: Props = $props();
-
-	let activeCategory: EvidenceCategory | 'all' = $state('all');
-
-	const filtered = $derived(
-		activeCategory === 'all'
-			? evidence
-			: evidence.filter((e) => e.category === activeCategory)
-	);
+	let { items, onselect }: Props = $props();
 </script>
 
-<div class="evidence-list">
-	<CategoryFilter bind:value={activeCategory} />
-	<div class="evidence-list__grid" role="list" aria-label="Evidence items">
-		{#each filtered as item (item.id)}
-			<EvidenceCard
-				{item}
-				onclick={() => onselect?.(item)}
-				ondelete={() => ondelete?.(item.id)}
-			/>
-		{:else}
-			<p class="evidence-list__empty">No evidence items found.</p>
-		{/each}
-	</div>
+<div class="evidence-list" role="list" aria-label="Evidence items">
+	{#each items as item (item.id)}
+		<button class="evidence-list__item" role="listitem" onclick={() => onselect(item)} aria-label="View evidence: {item.title}">
+			<EvidenceCard evidence={item} />
+		</button>
+	{/each}
 </div>
+
+{#if items.length === 0}
+	<p class="evidence-list__empty">No evidence items found.</p>
+{/if}
 
 <style>
 	.evidence-list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-4);
-	}
-	.evidence-list__grid {
-		display: flex;
-		flex-direction: column;
 		gap: var(--space-3);
+	}
+	.evidence-list__item {
+		display: block;
+		width: 100%;
+		text-align: left;
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+	}
+	.evidence-list__item:focus-visible {
+		outline: 2px solid var(--color-primary-500);
+		outline-offset: 2px;
+		border-radius: var(--radius-lg);
 	}
 	.evidence-list__empty {
 		text-align: center;

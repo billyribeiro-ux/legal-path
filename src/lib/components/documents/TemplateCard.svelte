@@ -12,10 +12,10 @@
 	const categoryColors: Record<string, string> = {
 		filing: 'primary',
 		motion: 'info',
-		brief: 'warning',
 		form: 'success',
-		correspondence: 'default',
-		authorization: 'danger'
+		correspondence: 'warning',
+		brief: 'info',
+		discovery: 'default'
 	};
 </script>
 
@@ -66,12 +66,11 @@
 	.template-card__desc {
 		font-size: var(--text-sm);
 		color: var(--color-text-secondary);
-		line-height: var(--leading-relaxed);
+		line-height: 1.5;
 	}
 	.template-card__meta {
 		font-size: var(--text-xs);
 		color: var(--color-text-tertiary);
 		text-transform: capitalize;
-		margin-top: auto;
 	}
 </style>

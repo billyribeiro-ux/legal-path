@@ -37,7 +37,7 @@
 		padding: var(--space-4);
 		font-family: var(--font-mono, 'Courier New', monospace);
 		font-size: var(--text-sm);
-		line-height: var(--leading-relaxed);
+		line-height: 1.7;
 		color: var(--color-text-primary);
 		background-color: var(--color-bg-surface);
 		border: 1px solid var(--color-border);

@@ -15,10 +15,12 @@
 		<div role="listitem">
 			<TemplateCard {template} onclick={() => onselect(template)} />
 		</div>
-	{:else}
-		<p class="template-grid__empty">No templates available.</p>
 	{/each}
 </div>
+
+{#if templates.length === 0}
+	<p class="template-grid__empty">No templates available.</p>
+{/if}
 
 <style>
 	.template-grid {
@@ -27,7 +29,6 @@
 		gap: var(--space-4);
 	}
 	.template-grid__empty {
-		grid-column: 1 / -1;
 		text-align: center;
 		color: var(--color-text-tertiary);
 		font-size: var(--text-sm);
