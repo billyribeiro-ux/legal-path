@@ -4,27 +4,29 @@
 
 	interface Props {
 		templates: DocumentTemplate[];
-		onselect?: (template: DocumentTemplate) => void;
+		onselect: (template: DocumentTemplate) => void;
 	}
 
 	let { templates, onselect }: Props = $props();
 </script>
 
-<div class="template-list" role="list" aria-label="Document templates">
+<div class="template-grid" role="list" aria-label="Document templates">
 	{#each templates as template (template.id)}
-		<TemplateCard {template} onclick={() => onselect?.(template)} />
+		<div role="listitem">
+			<TemplateCard {template} onclick={() => onselect(template)} />
+		</div>
 	{:else}
-		<p class="template-list__empty">No templates available for this case type.</p>
+		<p class="template-grid__empty">No templates available.</p>
 	{/each}
 </div>
 
 <style>
-	.template-list {
+	.template-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 		gap: var(--space-4);
 	}
-	.template-list__empty {
+	.template-grid__empty {
 		grid-column: 1 / -1;
 		text-align: center;
 		color: var(--color-text-tertiary);

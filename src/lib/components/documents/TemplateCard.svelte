@@ -1,39 +1,47 @@
 <script lang="ts">
 	import type { DocumentTemplate } from '$lib/types/document';
 	import Badge from '$components/ui/Badge.svelte';
-	import FileText from 'phosphor-svelte/lib/FileText';
 
 	interface Props {
 		template: DocumentTemplate;
-		onclick?: () => void;
+		onclick: () => void;
 	}
 
 	let { template, onclick }: Props = $props();
+
+	const categoryColors: Record<string, string> = {
+		filing: 'primary',
+		motion: 'info',
+		brief: 'warning',
+		form: 'success',
+		correspondence: 'default',
+		authorization: 'danger'
+	};
 </script>
 
-<button class="template-card" onclick={onclick} type="button" role="listitem">
-	<div class="template-card__icon">
-		<FileText size={24} weight="duotone" />
+<button class="template-card" {onclick} aria-label="Select template: {template.name}">
+	<div class="template-card__header">
+		<Badge variant={categoryColors[template.category] ?? 'default'} size="sm">
+			{template.category.replace('_', ' ')}
+		</Badge>
 	</div>
-	<div class="template-card__content">
-		<h3 class="template-card__title">{template.name}</h3>
-		<p class="template-card__description">{template.description}</p>
-		<div class="template-card__meta">
-			<Badge variant="default">{template.category.replace('_', ' ')}</Badge>
-			<span class="template-card__fields">{template.fields.length} fields</span>
-		</div>
-	</div>
+	<h3 class="template-card__name">{template.name}</h3>
+	<p class="template-card__desc">{template.description}</p>
+	<p class="template-card__meta">{template.jurisdiction} &middot; {template.caseType.replace('_', ' ')}</p>
 </button>
 
 <style>
 	.template-card {
 		display: flex;
-		gap: var(--space-3);
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-2);
 		padding: var(--space-4);
 		background-color: var(--color-bg-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-lg);
 		text-align: left;
+		cursor: pointer;
 		transition: all var(--duration-fast);
 		width: 100%;
 	}
@@ -41,38 +49,29 @@
 		border-color: var(--color-primary-300);
 		box-shadow: var(--shadow-sm);
 	}
-	.template-card__icon {
-		color: var(--color-primary-600);
-		flex-shrink: 0;
-		padding-top: var(--space-0-5);
+	.template-card:focus-visible {
+		box-shadow: var(--focus-ring);
 	}
-	.template-card__content {
-		flex: 1;
-		min-width: 0;
+	.template-card__header {
+		display: flex;
+		justify-content: flex-end;
+		width: 100%;
 	}
-	.template-card__title {
-		font-size: var(--text-sm);
+	.template-card__name {
+		font-size: var(--text-base);
 		font-weight: var(--weight-semibold);
 		color: var(--color-text-primary);
 		font-family: var(--font-heading);
 	}
-	.template-card__description {
+	.template-card__desc {
 		font-size: var(--text-sm);
 		color: var(--color-text-secondary);
-		margin-top: var(--space-1);
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+		line-height: var(--leading-relaxed);
 	}
 	.template-card__meta {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-		margin-top: var(--space-2);
-	}
-	.template-card__fields {
 		font-size: var(--text-xs);
 		color: var(--color-text-tertiary);
+		text-transform: capitalize;
+		margin-top: auto;
 	}
 </style>

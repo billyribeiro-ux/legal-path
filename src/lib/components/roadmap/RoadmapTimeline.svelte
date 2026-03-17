@@ -10,7 +10,7 @@
 	let { steps, onstepclick }: Props = $props();
 </script>
 
-<div class="timeline" role="list" aria-label="Case procedural roadmap">
+<div class="timeline" role="list" aria-label="Case roadmap">
 	{#each steps as step, i (step.id)}
 		<RoadmapStepComponent
 			{step}
