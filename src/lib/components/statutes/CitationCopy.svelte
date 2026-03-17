@@ -1,63 +1,78 @@
 <script lang="ts">
-	import Button from '$components/ui/Button.svelte';
-	import Copy from 'phosphor-svelte/lib/Copy';
-	import Check from 'phosphor-svelte/lib/Check';
-
 	interface Props {
 		citation: string;
 	}
 
 	let { citation }: Props = $props();
-
 	let copied = $state(false);
 
-	async function handleCopy() {
+	async function copyToClipboard() {
 		try {
 			await navigator.clipboard.writeText(citation);
 			copied = true;
-			setTimeout(() => (copied = false), 2000);
+			setTimeout(() => { copied = false; }, 2000);
 		} catch {
-			// Fallback for environments without clipboard API
+			// Fallback for older browsers
 			const textarea = document.createElement('textarea');
 			textarea.value = citation;
+			textarea.style.position = 'fixed';
+			textarea.style.opacity = '0';
 			document.body.appendChild(textarea);
 			textarea.select();
 			document.execCommand('copy');
 			document.body.removeChild(textarea);
 			copied = true;
-			setTimeout(() => (copied = false), 2000);
+			setTimeout(() => { copied = false; }, 2000);
 		}
 	}
 </script>
 
-<div class="citation-copy">
-	<code class="citation-copy__text">{citation}</code>
-	<Button variant="ghost" size="sm" onclick={handleCopy}>
-		{#snippet icon()}
-			{#if copied}
-				<Check size={14} />
-			{:else}
-				<Copy size={14} />
-			{/if}
-		{/snippet}
-		{copied ? 'Copied!' : 'Copy Citation'}
-	</Button>
-</div>
+<button
+	class="citation-copy"
+	class:citation-copy--copied={copied}
+	onclick={copyToClipboard}
+	aria-label={copied ? 'Citation copied' : 'Copy citation to clipboard'}
+	title={copied ? 'Copied!' : 'Copy citation'}
+>
+	{#if copied}
+		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+			<path d="M3 8.5l3 3 7-7"/>
+		</svg>
+	{:else}
+		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+			<rect x="5" y="5" width="8" height="8" rx="1"/>
+			<path d="M11 3H4a1 1 0 00-1 1v7"/>
+		</svg>
+	{/if}
+</button>
 
 <style>
 	.citation-copy {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--space-2);
-		background-color: var(--color-bg-sunken);
-		padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
-		border-radius: var(--radius-md);
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		color: var(--color-text-tertiary);
+		background-color: transparent;
 		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		cursor: pointer;
+		transition: all var(--duration-fast);
+		flex-shrink: 0;
 	}
-	.citation-copy__text {
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
+	.citation-copy:hover {
 		color: var(--color-text-primary);
-		user-select: all;
+		background-color: var(--color-bg-sunken);
+		border-color: var(--color-primary-300);
+	}
+	.citation-copy:focus-visible {
+		box-shadow: var(--focus-ring);
+	}
+	.citation-copy--copied {
+		color: var(--color-success-dark);
+		border-color: var(--color-success-dark);
+		background-color: var(--color-success-light);
 	}
 </style>

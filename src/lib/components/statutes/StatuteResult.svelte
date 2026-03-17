@@ -4,32 +4,56 @@
 
 	interface Props {
 		result: StatuteSearchResult;
-		onclick?: () => void;
 	}
 
-	let { result, onclick }: Props = $props();
+	let { result }: Props = $props();
+
+	let relevancePercent = $derived(Math.round(result.relevanceScore * 100));
+
+	let relevanceVariant = $derived(
+		relevancePercent >= 80 ? 'success' : relevancePercent >= 50 ? 'warning' : 'default'
+	);
+
+	const typeColors: Record<string, string> = {
+		statute: 'primary',
+		regulation: 'info',
+		procedure: 'warning',
+		form_instruction: 'default'
+	};
 </script>
 
-<button class="statute-result" onclick={onclick} type="button">
+<article class="statute-result" aria-label="Statute: {result.statute.title}">
 	<div class="statute-result__header">
-		<code class="statute-result__citation">{result.statute.citation}</code>
-		<Badge variant="primary" size="sm">{result.statute.sourceType}</Badge>
+		<Badge variant={typeColors[result.statute.sourceType] ?? 'default'} size="sm">
+			{result.statute.sourceType.replace('_', ' ')}
+		</Badge>
+		<Badge variant={relevanceVariant} size="sm">
+			{relevancePercent}% match
+		</Badge>
 	</div>
-	<h4 class="statute-result__title">{result.statute.title}</h4>
+	<cite class="statute-result__citation">{result.statute.citation}</cite>
+	<h3 class="statute-result__title">{result.statute.title}</h3>
 	{#if result.statute.plainEnglish}
 		<p class="statute-result__summary">{result.statute.plainEnglish}</p>
 	{/if}
-</button>
+	{#if result.matchedSections?.length}
+		<div class="statute-result__sections">
+			{#each result.matchedSections as section}
+				<span class="statute-result__section">{section}</span>
+			{/each}
+		</div>
+	{/if}
+</article>
 
 <style>
 	.statute-result {
-		display: block;
-		width: 100%;
-		text-align: left;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
 		padding: var(--space-4);
+		background-color: var(--color-bg-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-lg);
-		background-color: var(--color-bg-surface);
 		transition: all var(--duration-fast);
 	}
 	.statute-result:hover {
@@ -40,27 +64,34 @@
 		display: flex;
 		align-items: center;
 		gap: var(--space-2);
-		margin-bottom: var(--space-1);
 	}
 	.statute-result__citation {
-		font-family: var(--font-mono);
 		font-size: var(--text-sm);
-		color: var(--color-primary-700);
 		font-weight: var(--weight-semibold);
+		color: var(--color-primary-700);
+		font-style: normal;
 	}
 	.statute-result__title {
 		font-size: var(--text-base);
 		font-weight: var(--weight-semibold);
-		color: var(--color-text-primary);
 		font-family: var(--font-heading);
+		color: var(--color-text-primary);
 	}
 	.statute-result__summary {
-		margin-top: var(--space-2);
 		font-size: var(--text-sm);
 		color: var(--color-text-secondary);
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		overflow: hidden;
+		line-height: 1.6;
+	}
+	.statute-result__sections {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-1);
+	}
+	.statute-result__section {
+		font-size: var(--text-xs);
+		color: var(--color-text-tertiary);
+		background-color: var(--color-bg-sunken);
+		padding: var(--space-0-5) var(--space-2);
+		border-radius: var(--radius-sm);
 	}
 </style>

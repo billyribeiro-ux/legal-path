@@ -1,59 +1,47 @@
 <script lang="ts">
 	import type { JournalEntry } from '$lib/types/journal';
-	import { formatDate } from '$lib/utils/format';
-	import { truncateText } from '$lib/utils/format';
+	import Badge from '$components/ui/Badge.svelte';
 	import ActivityIcon from './ActivityIcon.svelte';
-	import Trash from 'phosphor-svelte/lib/Trash';
+	import { formatDate } from '$lib/utils/format';
 
 	interface Props {
 		entry: JournalEntry;
-		onclick?: () => void;
-		ondelete?: () => void;
 	}
 
-	let { entry, onclick, ondelete }: Props = $props();
+	let { entry }: Props = $props();
+
+	const typeBadge: Record<string, string> = {
+		manual: 'primary',
+		system: 'default',
+		ai_suggested: 'info'
+	};
 </script>
 
-<div class="journal-card" role="listitem">
-	<button class="journal-card__main" onclick={onclick} type="button">
-		<div class="journal-card__icon">
-			<ActivityIcon entryType={entry.entryType} />
+<article class="journal-card" aria-label="Journal entry from {formatDate(entry.createdAt)}">
+	<div class="journal-card__icon">
+		<ActivityIcon type={entry.entryType} />
+	</div>
+	<div class="journal-card__content">
+		<div class="journal-card__header">
+			<Badge variant={typeBadge[entry.entryType] ?? 'default'} size="sm">
+				{entry.entryType.replace('_', ' ')}
+			</Badge>
+			<time class="journal-card__date" datetime={entry.createdAt}>
+				{formatDate(entry.createdAt)}
+			</time>
 		</div>
-		<div class="journal-card__content">
-			<p class="journal-card__text">{truncateText(entry.content, 150)}</p>
-			<div class="journal-card__meta">
-				<span class="journal-card__type">{entry.entryType.replace('_', ' ')}</span>
-				<span class="journal-card__date">{formatDate(entry.createdAt, 'relative')}</span>
-			</div>
-		</div>
-	</button>
-	{#if ondelete && entry.entryType === 'manual'}
-		<button class="journal-card__delete" onclick={ondelete} type="button" aria-label="Delete entry">
-			<Trash size={16} />
-		</button>
-	{/if}
-</div>
+		<p class="journal-card__text">{entry.content}</p>
+	</div>
+</article>
 
 <style>
 	.journal-card {
 		display: flex;
-		align-items: flex-start;
+		gap: var(--space-3);
+		padding: var(--space-4);
 		background-color: var(--color-bg-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-lg);
-		overflow: hidden;
-		transition: border-color var(--duration-fast);
-	}
-	.journal-card:hover {
-		border-color: var(--color-primary-300);
-	}
-	.journal-card__main {
-		display: flex;
-		gap: var(--space-3);
-		padding: var(--space-3) var(--space-4);
-		flex: 1;
-		text-align: left;
-		min-width: 0;
 	}
 	.journal-card__icon {
 		flex-shrink: 0;
@@ -62,29 +50,24 @@
 	.journal-card__content {
 		flex: 1;
 		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+	}
+	.journal-card__header {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+	.journal-card__date {
+		font-size: var(--text-xs);
+		color: var(--color-text-tertiary);
+		margin-left: auto;
 	}
 	.journal-card__text {
 		font-size: var(--text-sm);
 		color: var(--color-text-primary);
-		line-height: var(--leading-relaxed);
-	}
-	.journal-card__meta {
-		display: flex;
-		gap: var(--space-2);
-		margin-top: var(--space-2);
-		font-size: var(--text-xs);
-		color: var(--color-text-tertiary);
-	}
-	.journal-card__type {
-		text-transform: capitalize;
-	}
-	.journal-card__delete {
-		padding: var(--space-3);
-		color: var(--color-text-tertiary);
-		transition: color var(--duration-fast);
-		flex-shrink: 0;
-	}
-	.journal-card__delete:hover {
-		color: var(--color-error);
+		line-height: 1.6;
+		white-space: pre-wrap;
 	}
 </style>

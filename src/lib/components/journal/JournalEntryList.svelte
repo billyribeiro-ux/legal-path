@@ -4,24 +4,20 @@
 
 	interface Props {
 		entries: JournalEntry[];
-		onselect?: (entry: JournalEntry) => void;
-		ondelete?: (id: string) => void;
 	}
 
-	let { entries, onselect, ondelete }: Props = $props();
+	let { entries }: Props = $props();
 </script>
 
-<div class="journal-list" role="list" aria-label="Journal entries">
+<div class="journal-list" role="feed" aria-label="Journal entries">
 	{#each entries as entry (entry.id)}
-		<JournalEntryCard
-			{entry}
-			onclick={() => onselect?.(entry)}
-			ondelete={() => ondelete?.(entry.id)}
-		/>
-	{:else}
-		<p class="journal-list__empty">No journal entries yet. Start documenting your case.</p>
+		<JournalEntryCard {entry} />
 	{/each}
 </div>
+
+{#if entries.length === 0}
+	<p class="journal-list__empty">No journal entries yet.</p>
+{/if}
 
 <style>
 	.journal-list {

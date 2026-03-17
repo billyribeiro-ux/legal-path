@@ -1,36 +1,33 @@
 <script lang="ts">
-	import Textarea from '$components/ui/Textarea.svelte';
 	import Button from '$components/ui/Button.svelte';
-	import NotePencil from 'phosphor-svelte/lib/NotePencil';
+	import Textarea from '$components/ui/Textarea.svelte';
 
 	interface Props {
-		caseId: string;
-		loading?: boolean;
-		onsave?: (content: string) => void;
+		onsubmit: (content: string) => void;
 	}
 
-	let { caseId, loading = false, onsave }: Props = $props();
+	let { onsubmit }: Props = $props();
 
 	let content = $state('');
+	let canSubmit = $derived(content.trim().length > 0);
 
 	function handleSubmit() {
-		if (!content.trim()) return;
-		onsave?.(content.trim());
+		if (!canSubmit) return;
+		onsubmit(content.trim());
 		content = '';
 	}
 </script>
 
-<form class="journal-editor" onsubmit|preventDefault={handleSubmit}>
+<form class="journal-editor" onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} aria-label="New journal entry">
 	<Textarea
-		label="New Journal Entry"
-		placeholder="Record details about your case — conversations with employer, symptoms, doctor visits, anything relevant..."
+		label="New Entry"
 		bind:value={content}
+		placeholder="What happened today with your case?"
 		rows={4}
 	/>
 	<div class="journal-editor__actions">
-		<Button variant="primary" type="submit" {loading} disabled={!content.trim()}>
-			{#snippet icon()}<NotePencil size={16} />{/snippet}
-			Save Entry
+		<Button type="submit" variant="primary" disabled={!canSubmit}>
+			Add Entry
 		</Button>
 	</div>
 </form>
@@ -40,6 +37,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
+		padding: var(--space-4);
+		background-color: var(--color-bg-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
 	}
 	.journal-editor__actions {
 		display: flex;
