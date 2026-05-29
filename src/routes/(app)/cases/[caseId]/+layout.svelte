@@ -22,7 +22,7 @@
 </script>
 
 <div class="case-layout">
-	<nav class="case-tabs" role="tablist">
+	<div class="case-tabs" role="tablist">
 		{#each tabs as tab}
 			<a
 				href="/cases/{page.params.caseId}{tab.href}"
@@ -34,7 +34,7 @@
 				{tab.label}
 			</a>
 		{/each}
-	</nav>
+	</div>
 	<div class="case-content">
 		{@render children()}
 	</div>

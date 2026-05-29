@@ -9,7 +9,9 @@
 
 	let { template, onclick }: Props = $props();
 
-	const categoryColors: Record<string, string> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const categoryColors: Record<string, BadgeVariant> = {
 		filing: 'primary',
 		motion: 'info',
 		form: 'success',

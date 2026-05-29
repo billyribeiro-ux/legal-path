@@ -8,8 +8,9 @@
 	}
 
 	let { label, error, helpText, id, value = $bindable(''), ...rest }: Props = $props();
-	const inputId = id ?? crypto.randomUUID();
-	const errorId = `${inputId}-error`;
+	const fallbackId = crypto.randomUUID();
+	const inputId = $derived(id ?? fallbackId);
+	const errorId = $derived(`${inputId}-error`);
 </script>
 
 <div class="textarea-group" class:textarea-group--error={error}>

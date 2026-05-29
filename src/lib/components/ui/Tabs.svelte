@@ -16,7 +16,9 @@
 
 	let { tabs, activeTab = $bindable(''), ontabchange, children }: Props = $props();
 
-	if (!activeTab && tabs.length > 0) activeTab = tabs[0].id;
+	$effect(() => {
+		if (!activeTab && tabs.length > 0) activeTab = tabs[0].id;
+	});
 
 	function selectTab(id: string) {
 		activeTab = id;

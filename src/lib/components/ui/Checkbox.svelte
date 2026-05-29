@@ -8,7 +8,8 @@
 	}
 
 	let { label, checked = $bindable(false), disabled = false, id, onchange }: Props = $props();
-	const inputId = id ?? crypto.randomUUID();
+	const fallbackId = crypto.randomUUID();
+	const inputId = $derived(id ?? fallbackId);
 </script>
 
 <label class="checkbox" class:checkbox--disabled={disabled} for={inputId}>

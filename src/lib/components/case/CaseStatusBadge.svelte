@@ -8,7 +8,9 @@
 
 	let { status }: Props = $props();
 
-	const config: Record<CaseStatus, { variant: string; label: string }> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const config: Record<CaseStatus, { variant: BadgeVariant; label: string }> = {
 		active: { variant: 'success', label: 'Active' },
 		closed: { variant: 'default', label: 'Closed' },
 		on_hold: { variant: 'warning', label: 'On Hold' },

@@ -9,10 +9,6 @@ const config = {
 		alias: {
 			$components: 'src/lib/components'
 		}
-	},
-	vitePlugin: {
-		dynamicCompileOptions: ({ filename }) =>
-			filename.includes('node_modules') ? undefined : { runes: true }
 	}
 };
 

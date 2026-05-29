@@ -10,11 +10,13 @@
 
 	let relevancePercent = $derived(Math.round(result.relevanceScore * 100));
 
-	let relevanceVariant = $derived(
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	let relevanceVariant: BadgeVariant = $derived(
 		relevancePercent >= 80 ? 'success' : relevancePercent >= 50 ? 'warning' : 'default'
 	);
 
-	const typeColors: Record<string, string> = {
+	const typeColors: Record<string, BadgeVariant> = {
 		statute: 'primary',
 		regulation: 'info',
 		procedure: 'warning',

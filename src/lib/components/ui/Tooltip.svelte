@@ -13,6 +13,7 @@
 
 <span
 	class="tooltip-wrapper"
+	role="group"
 	onmouseenter={() => (visible = true)}
 	onmouseleave={() => (visible = false)}
 	onfocusin={() => (visible = true)}

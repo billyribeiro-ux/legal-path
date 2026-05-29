@@ -9,7 +9,8 @@
 	}
 
 	let { label, error, options, placeholder, id, value = $bindable(''), ...rest }: Props = $props();
-	const selectId = id ?? crypto.randomUUID();
+	const fallbackId = crypto.randomUUID();
+	const selectId = $derived(id ?? fallbackId);
 </script>
 
 <div class="select-group" class:select-group--error={error}>

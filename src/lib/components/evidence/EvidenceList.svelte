@@ -12,9 +12,11 @@
 
 <div class="evidence-list" role="list" aria-label="Evidence items">
 	{#each items as item (item.id)}
-		<button class="evidence-list__item" role="listitem" onclick={() => onselect(item)} aria-label="View evidence: {item.title}">
-			<EvidenceCard evidence={item} />
-		</button>
+		<div class="evidence-list__item" role="listitem">
+			<button class="evidence-list__button" onclick={() => onselect(item)} aria-label="View evidence: {item.title}">
+				<EvidenceCard evidence={item} />
+			</button>
+		</div>
 	{/each}
 </div>
 
@@ -28,7 +30,7 @@
 		flex-direction: column;
 		gap: var(--space-3);
 	}
-	.evidence-list__item {
+	.evidence-list__button {
 		display: block;
 		width: 100%;
 		text-align: left;
@@ -37,7 +39,7 @@
 		border: none;
 		padding: 0;
 	}
-	.evidence-list__item:focus-visible {
+	.evidence-list__button:focus-visible {
 		outline: 2px solid var(--color-primary-500);
 		outline-offset: 2px;
 		border-radius: var(--radius-lg);

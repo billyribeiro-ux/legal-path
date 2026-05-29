@@ -10,7 +10,9 @@
 
 	let { entry }: Props = $props();
 
-	const typeBadge: Record<string, string> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const typeBadge: Record<string, BadgeVariant> = {
 		manual: 'primary',
 		system: 'default',
 		ai_suggested: 'info'

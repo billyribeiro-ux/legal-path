@@ -1,8 +1,8 @@
 import type { Case } from '$lib/types/case';
 
 function createCaseState() {
-	let activeCase: Case | null = $state(null);
-	let cases: Case[] = $state([]);
+	let activeCase = $state<Case | null>(null);
+	let cases = $state<Case[]>([]);
 	const activeCaseId = $derived(activeCase?.id ?? null);
 	const activeCaseTitle = $derived(activeCase?.title ?? '');
 	const caseCount = $derived(cases.length);

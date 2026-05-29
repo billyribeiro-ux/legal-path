@@ -10,7 +10,9 @@
 
 	let { caseData }: Props = $props();
 
-	const statusColors: Record<string, string> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const statusColors: Record<string, BadgeVariant> = {
 		active: 'success',
 		closed: 'default',
 		on_hold: 'warning',

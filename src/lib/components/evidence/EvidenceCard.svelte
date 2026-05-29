@@ -14,7 +14,9 @@
 		return kb > 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${Math.round(kb)} KB`;
 	});
 
-	const categoryColors: Record<string, string> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const categoryColors: Record<string, BadgeVariant> = {
 		medical_record: 'danger',
 		correspondence: 'info',
 		ime_report: 'warning',

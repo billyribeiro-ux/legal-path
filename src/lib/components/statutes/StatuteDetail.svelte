@@ -9,7 +9,9 @@
 
 	let { statute }: Props = $props();
 
-	const typeColors: Record<string, string> = {
+	type BadgeVariant = 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+
+	const typeColors: Record<string, BadgeVariant> = {
 		statute: 'primary',
 		regulation: 'info',
 		procedure: 'warning',

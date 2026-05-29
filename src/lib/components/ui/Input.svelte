@@ -9,9 +9,10 @@
 
 	let { label, error, helpText, id, value = $bindable(''), ...rest }: Props = $props();
 
-	const inputId = id ?? crypto.randomUUID();
-	const errorId = `${inputId}-error`;
-	const helpId = `${inputId}-help`;
+	const fallbackId = crypto.randomUUID();
+	const inputId = $derived(id ?? fallbackId);
+	const errorId = $derived(`${inputId}-error`);
+	const helpId = $derived(`${inputId}-help`);
 </script>
 
 <div class="input-group" class:input-group--error={error}>
