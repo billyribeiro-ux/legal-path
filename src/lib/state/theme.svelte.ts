@@ -4,8 +4,8 @@ type ThemePreference = 'light' | 'dark' | 'system';
 type ResolvedTheme = 'light' | 'dark';
 
 function createThemeState() {
-	let preference: ThemePreference = $state('system');
-	let resolved: ResolvedTheme = $state('light');
+	let preference = $state<ThemePreference>('system');
+	let resolved = $state<ResolvedTheme>('light');
 
 	if (browser) {
 		const saved = localStorage.getItem('lp-theme') as ThemePreference | null;

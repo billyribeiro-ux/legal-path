@@ -1,8 +1,8 @@
 import type { RoadmapStep } from '$lib/types/roadmap';
 
 function createRoadmapState() {
-	let steps: RoadmapStep[] = $state([]);
-	let currentStepIndex: number = $state(0);
+	let steps = $state<RoadmapStep[]>([]);
+	let currentStepIndex = $state(0);
 	const currentStep = $derived(steps[currentStepIndex] ?? null);
 	const completedSteps = $derived(steps.filter((s) => s.status === 'completed'));
 	const progress = $derived(steps.length > 0 ? completedSteps.length / steps.length : 0);

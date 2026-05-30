@@ -6,7 +6,7 @@ export interface ToastItem {
 }
 
 function createToastState() {
-	let items: ToastItem[] = $state([]);
+	let items = $state<ToastItem[]>([]);
 
 	function add(toast: Omit<ToastItem, 'id' | 'duration'> & { duration?: number }) {
 		const id = crypto.randomUUID();

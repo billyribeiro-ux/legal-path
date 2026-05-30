@@ -9,8 +9,8 @@ export interface QueuedOperation {
 }
 
 function createOfflineState() {
-	let isOnline: boolean = $state(true);
-	let pendingOperations: QueuedOperation[] = $state([]);
+	let isOnline = $state(true);
+	let pendingOperations = $state<QueuedOperation[]>([]);
 	const hasPendingSync = $derived(pendingOperations.length > 0);
 	const pendingCount = $derived(pendingOperations.length);
 

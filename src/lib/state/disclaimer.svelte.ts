@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 const STORAGE_KEY = 'lp-disclaimers';
 
 function createDisclaimerState() {
-	let accepted: Set<string> = $state(new Set());
+	let accepted = $state<Set<string>>(new Set());
 
 	if (browser) {
 		const saved = localStorage.getItem(STORAGE_KEY);

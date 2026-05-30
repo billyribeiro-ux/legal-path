@@ -2,9 +2,9 @@ import { browser } from '$app/environment';
 import type { User } from '$lib/types/user';
 
 function createAuthState() {
-	let user: User | null = $state(null);
-	let token: string | null = $state(null);
-	let refreshToken: string | null = $state(null);
+	let user = $state<User | null>(null);
+	let token = $state<string | null>(null);
+	let refreshToken = $state<string | null>(null);
 	const isAuthenticated = $derived(user !== null && token !== null);
 
 	if (browser) {
