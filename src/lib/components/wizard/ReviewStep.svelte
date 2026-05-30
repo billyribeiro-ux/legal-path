@@ -21,13 +21,13 @@
 <WizardStep title="Review Your Information" description="Please review all information before submitting.">
 	<FeatureDisclaimer message={DISCLAIMERS.caseSetup.content} />
 
-	{#each sections as section}
+	{#each sections as section (section.title)}
 		<Card variant="outlined" padding="sm">
 			{#snippet header()}
 				<h4 style="font-size: var(--text-sm); font-weight: var(--weight-semibold);">{section.title}</h4>
 			{/snippet}
 			<dl class="review-list">
-				{#each section.fields as field}
+				{#each section.fields as field (field)}
 					{#if caseData[field]}
 						<div class="review-list__item">
 							<dt>{field.replace(/([A-Z])/g, ' $1').replace(/^./, (s) => s.toUpperCase())}</dt>

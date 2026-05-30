@@ -12,7 +12,7 @@
 
 <fieldset class="radio-group" role="radiogroup" aria-label={label}>
 	<legend class="radio-group__legend">{label}</legend>
-	{#each options as opt}
+	{#each options as opt (opt.value)}
 		<label class="radio-group__option" class:radio-group__option--disabled={opt.disabled}>
 			<input
 				type="radio"

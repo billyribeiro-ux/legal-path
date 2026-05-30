@@ -16,13 +16,13 @@
 	</header>
 
 	{#if sections.length > 0}
-		{#each sections as section}
+		{#each sections as section (section.title)}
 			<section class="draft-preview__section">
 				<h2 class="draft-preview__section-title">{section.title}</h2>
 				<div class="draft-preview__section-content">{section.content}</div>
 				{#if section.citations?.length}
 					<footer class="draft-preview__citations">
-						{#each section.citations as citation}
+						{#each section.citations as citation (citation)}
 							<cite class="draft-preview__citation">{citation}</cite>
 						{/each}
 					</footer>

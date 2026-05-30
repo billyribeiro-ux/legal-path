@@ -28,7 +28,7 @@
 
 <div class="tabs">
 	<div class="tabs__list" role="tablist">
-		{#each tabs as tab}
+		{#each tabs as tab (tab.id)}
 			<button
 				class="tabs__tab"
 				class:tabs__tab--active={activeTab === tab.id}

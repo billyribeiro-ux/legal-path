@@ -40,7 +40,7 @@
 	{/if}
 	{#if result.matchedSections?.length}
 		<div class="statute-result__sections">
-			{#each result.matchedSections as section}
+			{#each result.matchedSections as section (section)}
 				<span class="statute-result__section">{section}</span>
 			{/each}
 		</div>

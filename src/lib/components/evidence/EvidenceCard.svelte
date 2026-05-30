@@ -9,7 +9,7 @@
 
 	let { evidence }: Props = $props();
 
-	let fileSize = $derived(() => {
+	let fileSize = $derived.by(() => {
 		const kb = evidence.fileSize / 1024;
 		return kb > 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${Math.round(kb)} KB`;
 	});
@@ -32,7 +32,7 @@
 		<Badge variant={categoryColors[evidence.category] ?? 'default'} size="sm">
 			{evidence.category.replace(/_/g, ' ')}
 		</Badge>
-		<span class="evidence-card__size">{fileSize()}</span>
+		<span class="evidence-card__size">{fileSize}</span>
 	</div>
 	<h3 class="evidence-card__title">{evidence.title}</h3>
 	{#if evidence.description}

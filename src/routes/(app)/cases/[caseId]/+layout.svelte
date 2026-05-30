@@ -23,7 +23,7 @@
 
 <div class="case-layout">
 	<div class="case-tabs" role="tablist">
-		{#each tabs as tab}
+		{#each tabs as tab (tab.href)}
 			<a
 				href="/cases/{page.params.caseId}{tab.href}"
 				class="case-tab"

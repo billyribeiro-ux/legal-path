@@ -10,21 +10,18 @@
 	}
 
 	let { children }: Props = $props();
-	let sidebarOpen = $state(true);
+	let sidebarOpenDesktop = $state(true);
 
 	const isMobile = $derived(!breakpoints.md.current);
-
-	$effect(() => {
-		if (isMobile) sidebarOpen = false;
-	});
+	const sidebarOpen = $derived(isMobile ? false : sidebarOpenDesktop);
 </script>
 
 <div class="app-shell">
 	{#if !isMobile}
-		<Sidebar bind:open={sidebarOpen} />
+		<Sidebar open={sidebarOpen} />
 	{/if}
 	<div class="app-shell__main" class:app-shell__main--sidebar-open={sidebarOpen && !isMobile}>
-		<TopBar ontogglesidebar={() => { sidebarOpen = !sidebarOpen; }} />
+		<TopBar ontogglesidebar={() => { sidebarOpenDesktop = !sidebarOpenDesktop; }} />
 		<main class="app-shell__content">
 			{@render children()}
 		</main>

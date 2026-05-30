@@ -35,7 +35,7 @@
 			</a>
 		</div>
 		<nav class="sidebar__nav">
-			{#each navItems as item}
+			{#each navItems as item (item.href)}
 				<a
 					href={item.href}
 					class="sidebar__link"

@@ -47,7 +47,7 @@
 	</button>
 	{#if open}
 		<div class="dropdown__menu dropdown__menu--{align}" role="menu">
-			{#each items as item}
+			{#each items as item (item.id)}
 				<button
 					class="dropdown__item"
 					class:dropdown__item--danger={item.danger}

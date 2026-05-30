@@ -13,7 +13,7 @@
 
 <div class="settings-layout">
 	<nav class="settings-nav">
-		{#each tabs as tab}
+		{#each tabs as tab (tab.href)}
 			<a
 				href={tab.href}
 				class="settings-nav__link"

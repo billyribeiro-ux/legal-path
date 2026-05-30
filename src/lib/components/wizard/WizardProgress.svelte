@@ -14,7 +14,7 @@
 
 <div class="wizard-progress" role="progressbar" aria-valuenow={currentStep + 1} aria-valuemax={steps.length}>
 	<div class="wizard-progress__steps">
-		{#each steps as step, i}
+		{#each steps as step, i (step.id)}
 			<div
 				class="wizard-progress__step"
 				class:wizard-progress__step--completed={i < currentStep}

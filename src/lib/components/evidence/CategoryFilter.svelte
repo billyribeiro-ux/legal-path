@@ -22,7 +22,7 @@
 </script>
 
 <div class="category-filter" role="group" aria-label="Filter by category">
-	{#each categories as category}
+	{#each categories as category (category)}
 		<button
 			class="category-filter__btn"
 			class:category-filter__btn--active={selected.includes(category)}

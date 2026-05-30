@@ -5,31 +5,34 @@ type ResolvedTheme = 'light' | 'dark';
 
 function createThemeState() {
 	let preference = $state<ThemePreference>('system');
-	let resolved = $state<ResolvedTheme>('light');
+	let mediaQueryMatches = $state(false);
 
 	if (browser) {
 		const saved = localStorage.getItem('lp-theme') as ThemePreference | null;
 		if (saved) preference = saved;
 
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-		function resolve() {
-			if (preference === 'system') {
-				resolved = mediaQuery.matches ? 'dark' : 'light';
-			} else {
-				resolved = preference;
-			}
-			document.documentElement.setAttribute('data-theme', resolved);
-		}
-
-		resolve();
-		mediaQuery.addEventListener('change', resolve);
-
-		$effect(() => {
-			localStorage.setItem('lp-theme', preference);
-			resolve();
+		mediaQueryMatches = mediaQuery.matches;
+		mediaQuery.addEventListener('change', (e) => {
+			mediaQueryMatches = e.matches;
 		});
 	}
+
+	const resolved = $derived<ResolvedTheme>(
+		preference === 'system' ? (mediaQueryMatches ? 'dark' : 'light') : preference
+	);
+
+	$effect(() => {
+		if (browser) {
+			localStorage.setItem('lp-theme', preference);
+		}
+	});
+
+	$effect(() => {
+		if (browser) {
+			document.documentElement.setAttribute('data-theme', resolved);
+		}
+	});
 
 	return {
 		get preference() {

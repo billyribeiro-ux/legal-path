@@ -11,7 +11,7 @@
 
 {#if lines > 1}
 	<div class="skeleton-group" style="gap: var(--space-2);">
-		{#each Array(lines) as _, i}
+		{#each Array(lines) as _, i (i)}
 			<div
 				class="skeleton skeleton--{variant}"
 				style="width: {i === lines - 1 ? '75%' : width}; height: {height};"

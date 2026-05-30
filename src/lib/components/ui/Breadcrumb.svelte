@@ -13,7 +13,7 @@
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
 	<ol class="breadcrumb__list">
-		{#each items as item, i}
+		{#each items as item, i (item.label)}
 			<li class="breadcrumb__item">
 				{#if item.href && i < items.length - 1}
 					<a class="breadcrumb__link" href={item.href}>{item.label}</a>

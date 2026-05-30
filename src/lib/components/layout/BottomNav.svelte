@@ -18,7 +18,7 @@
 </script>
 
 <nav class="bottom-nav" aria-label="Main navigation">
-	{#each items as item}
+	{#each items as item (item.href)}
 		<a
 			href={item.href}
 			class="bottom-nav__item"

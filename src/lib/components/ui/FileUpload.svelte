@@ -43,7 +43,6 @@
 </script>
 
 <div class="file-upload" class:file-upload--error={error}>
-	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="file-upload__dropzone"
 		class:file-upload__dropzone--active={dragging}

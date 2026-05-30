@@ -20,7 +20,7 @@
 	{#if breadcrumbs && breadcrumbs.length > 0}
 		<nav class="page-header__breadcrumbs" aria-label="Breadcrumb">
 			<ol>
-				{#each breadcrumbs as crumb, i}
+				{#each breadcrumbs as crumb, i (crumb.label)}
 					<li>
 						{#if crumb.href && i < breadcrumbs.length - 1}
 							<a href={crumb.href}>{crumb.label}</a>

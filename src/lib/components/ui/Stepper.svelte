@@ -14,7 +14,7 @@
 
 <nav class="stepper" aria-label="Progress">
 	<ol class="stepper__list">
-		{#each steps as step, i}
+		{#each steps as step, i (step.id)}
 			<li
 				class="stepper__item"
 				class:stepper__item--completed={i < currentStep}
